@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <title>A Little Present</title>
+
+  <style>
+    /* Birthday Decorations */
+#celebration {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 50;
+  display: none;
+}
+
+.confetti {
+  position: absolute;
+  top: -50px;
+  animation: falling linear infinite;
+  opacity: 0.9;
+  user-select: none;
+}
+
+@keyframes falling {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+    @keyframes flip-character {
+      0%, 100% {
+        transform: scaleX(1);
+      }
+      50% {
+        transform: scaleX(-1);
+      }
+    }
+
+    .flip-character {
+      animation: flip-character 2s ease-in-out infinite;
+    }
+
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .card-scroll {
+      scrollbar-width: thin;
+      scrollbar-color: #f9a8d4 transparent;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-transparent">
+<!-- Birthday Celebration -->
+<div id="celebration"></div>
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="lagu.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Overlay -->
+  <div
+    id="overlay"
+    class="fixed inset-0 flex items-center justify-center bg-black/30 p-4 sm:p-6 transition-colors duration-[1500ms]"
+  >
+
+    <!-- First Card -->
+    <div
+      id="presentCard"
+      class="w-full max-w-sm rounded-3xl bg-pink-50 p-6 sm:p-8 text-center shadow-2xl border border-pink-200 opacity-100 transition-opacity duration-[1500ms]"
+    >
+
+      <h1 class="text-2xl sm:text-3xl font-bold text-pink-500 mb-3">
+        Hallow.. baby :3
+      </h1>
+
+      <p class="text-sm sm:text-base text-pink-400 mb-6">
+        ♡ A little something for you ♡
+      </p>
+
+      <button
+        onclick="hideCard()"
+        class="w-full rounded-2xl bg-pink-400 px-5 py-3.5 font-semibold text-white shadow-md transition active:scale-95 hover:bg-pink-500"
+      >
+        Click me for your present~
+      </button>
+
+      <p class="mt-5 text-xs text-pink-300">
+        made with ♡ just for you
+      </p>
+
+    </div>
+
+
+    <!-- Second Card -->
+    <div
+      id="messageCard"
+      class="relative hidden opacity-0 transition-opacity duration-[1500ms] w-full max-w-sm rounded-3xl bg-pink-200 shadow-2xl border border-pink-200 overflow-hidden"
+    >
+
+      <!-- White Content Area -->
+      <div class="card-scroll max-h-[80dvh] overflow-y-auto bg-white rounded-3xl p-6 sm:p-8 pb-24">
+
+        <h1 class="text-2xl sm:text-3xl font-bold text-pink-500 mb-4 text-center">
+          Happy Birthday! Baobaoo^w^
+        </h1>
+
+        <hr class="border-pink-200 mb-5">
+
+        <p class="text-sm sm:text-base text-pink-400 leading-7 text-justify">
+          Dear my Gyoza,
+              <br>
+          Makasih udah mau datang ke hidupku, dan buat aku jalanin hari penuh tujuan untuk mencapai kamu yang disana. Walau aku masih terus memikirkan masa depan kita bakal kayak gimana, tapi aku harap masih baik baik aja karna aku udah sesayang itu sama kamu.
+
+          <br><br>
+
+          Kalau bisa aku mau bisa bahagiain kamu terus yang sekarang lagi struggle. I will always try my best for us :3.
+
+          <br><br>
+
+          Hadiahnya ya.. cuman kartu ini aja hehe, tapi semoga kamu sukaa.
+
+          <br><br>
+
+          <i class="text-pink-500">
+            ( I'm still waiting for your belly and you rub my ass >:) )
+          </i>
+          <br><br>
+          I love you forever-
+          <br>
+          Belo.
+        </p>
+
+      </div>
+
+      <!-- Character -->
+      <img
+        src="N2Ie72Op_400x400.png"
+        alt="cute character"
+        class="absolute bottom-2 right-2 w-20 sm:w-24 h-auto object-contain flip-character pointer-events-none"
+      />
+
+    </div>
+
+  </div>
+
+
+  <script>
+    let clicked = false;
+
+    function hideCard() {
+      if (clicked) return;
+      clicked = true;
+
+      const card = document.getElementById("presentCard");
+      const message = document.getElementById("messageCard");
+      const music = document.getElementById("bgMusic");
+      const overlay = document.getElementById("overlay");
+
+      // Start music
+      setTimeout(() => {
+        music.volume = 0.5;
+      music.play().catch(error => {
+        console.log("Music playback failed:", error);
+      });
+        startCelebration();
+      }, 500);
+      
+
+      // Change background from black to white
+      overlay.classList.remove("bg-black/30");
+      overlay.classList.add("bg-white");
+
+      // Fade out first card
+      card.classList.remove("opacity-100");
+      card.classList.add("opacity-0");
+
+      setTimeout(() => {
+        card.classList.add("hidden");
+
+        // Wait 1 second
+        setTimeout(() => {
+          message.classList.remove("hidden");
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              message.classList.remove("opacity-0");
+              message.classList.add("opacity-100");
+            });
+          });
+
+        }, 1000);
+
+      }, 1500);
+    }
+    function startCelebration() {
+  const celebration = document.getElementById("celebration");
+
+  celebration.style.display = "block";
+
+  const decorations = [
+    "🎉", "🎊", "💖", "💕","✨", "⭐", "🌸", "🎀", "🥳", 
+  ];
+
+  function createConfetti() {
+    const confetti = document.createElement("span");
+
+    confetti.classList.add("confetti");
+
+    confetti.textContent =
+      decorations[Math.floor(Math.random() * decorations.length)];
+
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.fontSize = (16 + Math.random() * 20) + "px";
+    confetti.style.animationDuration = (4 + Math.random() * 5) + "s";
+    confetti.style.animationDelay = Math.random() * 2 + "s";
+
+    celebration.appendChild(confetti);
+
+    setTimeout(() => {
+      confetti.remove();
+    }, 11000);
+  }
+
+  // Create decorations continuously
+  setInterval(createConfetti, 180);
+}
+  </script>
+
+</body>
+</html>
